@@ -41,7 +41,7 @@ public class Server {
 							cp.addLast(new ServerChildHandler());
 						}
 					})
-			        .bind(8889)
+			        .bind(8888)
 			        .sync();
 			System.out.println("server started!");
 			
