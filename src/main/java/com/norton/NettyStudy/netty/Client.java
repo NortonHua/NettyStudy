@@ -26,14 +26,14 @@ public class Client {
 			     //指定nio非阻塞
 			     .channel(NioSocketChannel.class)
 			     .handler(new ClientChannelInitializer())
-			     .connect("localhost",8889);
+			     .connect("localhost",8888);
 			f.addListener(new ChannelFutureListener() {
 				
 				@Override
 				public void operationComplete(ChannelFuture future) throws Exception {
 					// TODO Auto-generated method stub
 					if(!future.isSuccess()) {
-						System.out.println("not success!");
+						System.out.println("not connected!");
 					}else {
 						System.out.println("connected!");
 					}
@@ -42,7 +42,8 @@ public class Client {
 			f.sync();
 			
 			System.out.println("........");
-			 f.channel().closeFuture().sync();    
+			
+			f.channel().closeFuture().sync();    
 		}finally {
 			group.shutdownGracefully();
 		}
@@ -74,11 +75,11 @@ class ClientHandler extends ChannelInboundHandlerAdapter{
 		buf=(ByteBuf) msg;
 		byte[] bytes=new byte[buf.readableBytes()];
 		buf.getBytes(buf.readerIndex(), bytes);
-		System.out.println(bytes);
+		System.out.println(new String(bytes));
 		//System.out.println(buf);
 		//System.out.println(buf.refCnt());
 		}finally {
-			//if(buf!=null) ReferenceCountUtil.release(buf);
+			if(buf!=null) ReferenceCountUtil.release(buf);
 			//System.out.println(buf.refCnt());
 		}
 		
